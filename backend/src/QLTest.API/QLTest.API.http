@@ -1,0 +1,6 @@
+@QLTest.API_HostAddress = http://localhost:5141
+
+GET {{QLTest.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

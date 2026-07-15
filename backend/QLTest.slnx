@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/QLTest.API/QLTest.API.csproj" />
+    <Project Path="src/QLTest.Application/QLTest.Application.csproj" />
+    <Project Path="src/QLTest.Domain/QLTest.Domain.csproj" />
+    <Project Path="src/QLTest.Infrastructure/QLTest.Infrastructure.csproj" />
+  </Folder>
+</Solution>
