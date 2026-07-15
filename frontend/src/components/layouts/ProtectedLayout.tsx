@@ -2,25 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/useAuthStore";
+import { Loader2 } from "lucide-react";
 
 export function ProtectedLayout({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true); // Mock true cho Sprint 2
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isAuthenticated, isLoading } = useAuthStore();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // TODO: Verify JWT token here when integrating with real Backend
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isLoading, isAuthenticated, router]);
+    setMounted(true);
+  }, []);
 
-  if (isLoading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading authentication...</div>;
+  useEffect(() => {
+    if (mounted && !isLoading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [mounted, isLoading, isAuthenticated, router]);
+
+  if (!mounted || isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col gap-2 items-center justify-center bg-gray-50 dark:bg-slate-950">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-sm font-medium text-gray-500">Đang xác thực...</p>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
-    return null; // Tránh render flash content trước khi redirect
+    return null;
   }
 
   return <>{children}</>;
